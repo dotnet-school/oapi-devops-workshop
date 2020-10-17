@@ -8,7 +8,7 @@ Todo
 - [x] Run with Kind/Minikube locally 
 - [x] Create AKS cluster
 - [x] Deploy to AKS from Azure CLI
-- [ ] Create a build pipeline with azure templates
+- [x] Create a build pipeline with azure templates
 - [ ] Create environment and release to environment on approval
 - [ ] Add test suites
   - [ ] L0, L1 

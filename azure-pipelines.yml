@@ -41,8 +41,8 @@ stages:
         tags: |
           $(tag)
           
-    - upload: manifests
-      artifact: manifests
+    - upload: k8
+      artifact: dist
 
 - stage: Deploy
   displayName: Deploy stage
@@ -70,8 +70,8 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/dist/oapi-deployment.yml
+                $(Pipeline.Workspace)/dist/oapi-service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
