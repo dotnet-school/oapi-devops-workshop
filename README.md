@@ -202,7 +202,64 @@ Make sure that following tools are available on your machine before starting.
 
   ```bash
   docker build -t oapi-service .
+  
+  # Sending build context to Docker daemon  188.4kB
+  # Step 1/6 : FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+  #  ---> c4155a9104a8
+  # Step 2/6 : WORKDIR /source
+  #  ---> Using cache
+  #  ---> e3c14feb38e6
+  # Step 3/6 : COPY OAPI.Service/*.csproj .
+  #  ---> Using cache
+  #  ---> a0c5001dbcd5
+  # Step 4/6 : RUN dotnet restore
+  #  ---> Using cache
+  #  ---> df30f3657cbc
+  # Step 5/6 : COPY ./OAPI.Service .
+  #  ---> Using cache
+  #  ---> 86d437cabddd
+  # Step 6/6 : RUN dotnet publish -c release -o /app --no-restore
+  #  ---> Using cache
+  #  ---> 2b0e6f7d8866
+  # Successfully built 2b0e6f7d8866
+  # Successfully tagged oapi-service:latest
   ```
 
+- Right now our docker image only compiles the project using .net sdk.
+
+- Now, lets make the docker image runt the app. Add following to end of `Dockerfile` : 
+
+  ```dockerfile
+  # Stage 2: We do not need the sdk and nodejs in final image, just runtime (smaller efficient image)
+  FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+  WORKDIR /app
   
+  # Copy files form previous stage 
+  COPY --from=build /app .
+  
+  EXPOSE 80
+  ENTRYPOINT ["dotnet", "OAPI.Service.dll"]
+  ```
+
+- Lets build and run the docker image now : 
+
+  ```bash
+  docker build -t oapi-service .
+  
+  # Run our docker image as a container
+  # Map our machines port 5001 to container's port 80
+  docker run -p 5001:80 oapi-service
+  ```
+
+- Now open url http://localhost:5001/, it should return our health check as expected : 
+
+  ```json
+  {
+    "version": "1.0",
+    "healthy": true,
+    "message": "Up and running"
+  }
+  ```
+
+
 
