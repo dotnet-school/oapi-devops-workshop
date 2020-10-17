@@ -570,10 +570,10 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
   {
     return new Dictionary<string, object>()
     {
-  -   ["version"] = "1.0", 
-  +   ["version"] = "v1.0", 
-      ["healthy"] = true, 
-      ["message"] = "Up and running", 
+      ["version"] = "1.0", 
+      ["healthy"] = true,  
+  -    ["message"] = "Up and running", 
+  +    ["message"] = "Up and running! with auto release.", 
     };
   }
   ```
@@ -584,11 +584,11 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
 
   ```yaml
   {
-    "version": "v1.0",
+    "version": "1.0",
     "healthy": true,
-    "message": "Up and running"
+    "message": "Up and running! with auto release."
   }
   ```
 
-  
+- 
 

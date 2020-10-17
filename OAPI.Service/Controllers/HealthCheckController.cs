@@ -12,9 +12,9 @@ namespace OAPI.Service.Controllers
         {
             return new Dictionary<string, object>()
             {
-                            ["version"] = "v1.0", 
+                            ["version"] = "1.0", 
                             ["healthy"] = true, 
-                            ["message"] = "Up and running", 
+                            ["message"] = "Up and running! with auto release.", 
             };
         }
     }
