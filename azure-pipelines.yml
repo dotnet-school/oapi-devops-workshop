@@ -32,3 +32,10 @@ steps:
     containerRegistry: DockerHubServiceConnection
     repository: $(dockerRepository)          
     tags: $(tag)  
+
+- bash: echo $(imageName) > $(Build.ArtifactStagingDirectory)/version.txt
+  displayName: Create version.txt
+
+- publish: $(Build.ArtifactStagingDirectory)
+  artifact: info
+  displayName: Publish version.txt

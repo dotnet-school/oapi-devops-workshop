@@ -16,7 +16,7 @@ Todo
 
 - [x] Deploy to AKS from Azure CLI
 
-- [ ] Create a build pipeline
+- [x] Create a build pipeline
 
 - [ ] Create a release pipeline 
 
@@ -545,10 +545,17 @@ Make sure that following tools are available on your machine before starting.
       containerRegistry: DockerHubServiceConnection
       repository: $(dockerRepository)          
       tags: $(tag)  
-  ```
-
   
-
+  - bash: echo $(imageName) > $(Build.ArtifactStagingDirectory)/version.txt
+    displayName: Create version.txt
+  
+  - publish: $(Build.ArtifactStagingDirectory)
+    artifact: info
+    displayName: Publish version.txt
+  ```
+  
+  
+  
   ![image-20201017203051738](./docs/images/create-initial-build-yml.png)
 
 
@@ -591,8 +598,6 @@ Make sure that following tools are available on your machine before starting.
 
 - Now go back to our pipeline and run it for master branch
 - After the pipeline runs successfully, go to docker hub and check if the image was correctly created.
-
-
 
 ### Delete the cluster
 
