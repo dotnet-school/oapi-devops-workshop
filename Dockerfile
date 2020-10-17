@@ -10,7 +10,7 @@ RUN dotnet restore
 COPY ./OAPI.Service .
 RUN dotnet publish -c release -o /app --no-restore
 
-# Stage 2: We do not need the sdk and nodejs in final image, just runtime (smaller efficient image)
+# Stage 2: We do not need the sdk at runtime (smaller efficient image)
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 
