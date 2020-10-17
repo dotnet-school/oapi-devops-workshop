@@ -426,3 +426,68 @@ Make sure that following tools are available on your machine before starting.
 
   
 
+### Creating cluster on Azure Kubernetes Service
+
+- Login with Azure CLI
+
+  ```bash
+  azure login
+  ```
+
+  This will open a window in browser for authentication.
+
+- Ceate azure resources from command line : 
+
+  ```bash
+  
+  RESOURCE_GROUP=oapi-service-resource
+  CLUSTER_NAME=oapi-service
+  REGION=westeurope
+  
+  # Create resource
+  az group create --name $RESOURCE_GROUP --location $REGION
+  
+  # Create cluster on AKS with 1 node
+  az aks create --resource-group $RESOURCE_GROUP \
+  --name $CLUSTER_NAME \
+  --node-count 1 \
+  --enable-addons monitoring \
+  --generate-ssh-keys
+  
+  # Allow kubectl to connect and manage our AKS clustuer
+  az aks get-credentials \
+  --resource-group $RESOURCE_GROUP \
+  --name $CLUSTER_NAME
+  
+  kubectl get nodes
+  # NAME                                STATUS   ROLES   AGE     VERSION
+  # aks-nodepool1-36600731-vmss000000   Ready    agent   2m58s   v1.16.10
+  
+  # deploy our app on AKS
+  
+  kubectl apply -f k8
+  # deployment.apps/oapi-app-deployment created
+  # service/oapi-service created
+  ```
+
+- Get the public address of our load balancer created on Azure
+
+  ```bash
+  kubectl get service/oapi-service
+  # NAME           TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        
+  # oapi-service   LoadBalancer   10.0.237.105   20.54.227.54   80:30694/TCP   
+  ```
+
+- Now access the EXTERNAL-IP as http : http://external_ip_of_service
+
+
+
+
+
+### Delete the cluster
+ ```bash
+az group delete --name $RESOURCE_GROUP --yes --no-wait
+ ```
+
+  
+
