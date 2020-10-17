@@ -602,6 +602,72 @@ Make sure that following tools are available on your machine before starting.
 - Now go back to our pipeline and run it for master branch
 - After the pipeline runs successfully, go to docker hub and check if the image was correctly created.
 
+
+
+### Creating release pipeline
+
+- On https://dev.azure.com, got to `Pipelines > Releases`
+
+  ![image-20201017201946171](./docs/images/releases.png)
+
+- Click on New Pipeline and choose **Empty Job**
+
+  ![image-20201017211247458](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-empty-job.png)
+
+- Enter name of stage in release
+
+  ![image-20201017211341567](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-stage-name.png)
+
+- Click on add an artifact 
+
+  ![image-20201017211424691](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-click-add-artifact.png)
+
+
+
+- Choose our pipelin in Source : 
+
+  ![image-20201017211506529](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-source-pipeline-dropdown.png)
+
+
+
+- Now clcik on Add
+
+- Click on the `Coninuos Deployment Trigger` option next to release
+
+  ![image-20201017212400705](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-click-continuous-deploy-trigger.png)
+
+- Click on enabled option and choose branch as master
+
+  ![image-20201017211734672](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-continuous-deploy-for-master.png)
+
+- Set name of release build and click on save
+
+  ![image-20201017214358030](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-set-build-name.png)
+
+  
+
+- Open the task tab to define steps in our release : 
+
+  ![image-20201017212210648](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-task-tab-selction.png)
+
+  
+
+- Click on add task to job
+
+  ![image-20201017214533933](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-add-task.png)
+
+- From the tasks, search for bash
+
+  ![image-20201017214628151](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/release-task-bash-search.png)
+
+
+
+- 
+
+
+
+
+
 ### Delete the cluster
 
  ```bash
