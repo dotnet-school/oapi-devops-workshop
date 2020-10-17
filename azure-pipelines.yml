@@ -36,6 +36,9 @@ steps:
 - bash: echo $(imageName) > $(Build.ArtifactStagingDirectory)/version.txt
   displayName: Create version.txt
 
+- bash: cp -r k8 $(Build.ArtifactStagingDirectory)
+  displayName: Create version.txt
+
 - publish: $(Build.ArtifactStagingDirectory)
-  artifact: info
+  artifact: dist
   displayName: Publish version.txt

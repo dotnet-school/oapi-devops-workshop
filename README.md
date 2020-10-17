@@ -549,6 +549,9 @@ Make sure that following tools are available on your machine before starting.
   - bash: echo $(imageName) > $(Build.ArtifactStagingDirectory)/version.txt
     displayName: Create version.txt
   
+  - bash: cp -r k8 $(Build.ArtifactStagingDirectory)
+    displayName: Create version.txt
+  
   - publish: $(Build.ArtifactStagingDirectory)
     artifact: info
     displayName: Publish version.txt
