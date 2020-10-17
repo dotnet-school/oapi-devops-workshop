@@ -105,11 +105,11 @@ Make sure that following tools are available on your machine before starting.
 - Now lets generate a `.gitignore` before we can commit and push our project.
 
   ```bash
+  cd ..
   dotnet new gitignore
   git add --all
-  git commit "Create a web api"
+  git commit -m "Create a web api"
   git remote add origin <your-repository-on-github>
   git push origin master
   ```
 
-- 
