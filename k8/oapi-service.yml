@@ -1,0 +1,13 @@
+# This part creates a load balancer pod that receives traffic from
+# internet and load-balances to our pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: oapi-service
+spec:
+  selector:
+    app: oapi-app     # This makes load balancer point to oapi-app
+  ports:
+    - port: 80        
+      targetPort: 80  # The port our container(in pods) listens to
+  type: LoadBalancer

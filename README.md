@@ -1,17 +1,26 @@
 Todo 
 
 - [x] Create pre-requisites
+
 - [x] Create a web-api from boilerplate
+
 - [x] Create a healtch check API : send version, remarks
-- [ ] Dockerize Web API
+
+- [x] Dockerize Web API
+
 - [ ] Crate kubernetes config
+
 - [ ] Run with Kind locally 
+
 - [ ] Create AKS cluster
+
 - [ ] Deploy to AKS from Azure CLI
+
 - [ ] Create a build pipeline
+
 - [ ] Create a release pipeline 
 
-
+  
 
 ### Setup
 
@@ -24,7 +33,9 @@ Make sure that following tools are available on your machine before starting.
 - [ ] Github account
   - [ ] Create a new repository for this project (completely empty)
 - [ ] Docker
-- [ ] Kind
+- [ ] Account on docker hub
+- [ ] install kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
+- [ ] Setup Minikube or  Kind : https://kind.sigs.k8s.io/docs/user/quick-start/ 
 
 
 
@@ -261,7 +272,17 @@ Make sure that following tools are available on your machine before starting.
   }
   ```
 
+- Lets push our app to dockerhub now : 
 
+  ```bash
+  # replace "nishants" with your own user name
+  docker tag oapi-service nishants/oapi-service:v1.0 
+  
+  docker login
+  docker push nishants/oapi-service:v1.0 
+  ```
+
+- Now go to dockerhub and make sure the image is public. 
 
 - Now lets see if we understand docker, lets try to answer :
 
@@ -302,4 +323,106 @@ Make sure that following tools are available on your machine before starting.
     ```
 
     > Learn about multistage docker builds
+
+
+
+### Crating Kubernetes config
+
+- **How K8s works ?**
+
+  - It uses declarative style (in `yaml` files )
+  - i.e. **we tell what is the desired state for a cluster using YAML declaration**
+  - and run the `kubectl apply`
+  - Kubernetes automactically makes changes to the cluster based on our desired state.
+
+  >  Every release is basically a new configuration, using new docker images
+
+- **Our desired state of cluster would be**
+
+  - Running severale instances of app as a docker container
+  - Load balancer to receive traffic from internet (from outside the cluster)
+
+- **In Kubernetes language what we need is**
+
+  | What we need ?                                               | In Kuberntes language                          |
+  | ------------------------------------------------------------ | ---------------------------------------------- |
+  | Running severale instances of app as a docker container      | **Deployment** resource for app's docker image |
+  | Load balancer to receive traffic from internet (outside the cluster) | **Service** of type load balancer              |
+
+- Create a file `k8/oapi-deployment.yml`  in project as :
+
+  ```yml
+  # This part creates a pod that runs our docker image
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: oapi-app-deployment
+  spec:
+    replicas: 2    # Alwasy run two isntances of app
+    selector:
+      matchLabels:
+        app: oapi-app
+    template:
+      metadata:
+        labels:
+          app: oapi-app
+      spec:
+        containers:
+          - name: oapi-app
+            image: nishants/oapi-service:v1.0 # Dockerhub image
+            ports:
+              - containerPort: 80         # Port that our app listens to
+            imagePullPolicy: Always       # To keep simple for now
+  ```
+
+- Create another file `k8/oapi-service.yml`  in project as :
+
+  ```yml
+  # This part creates a load balancer pod that receives traffic from
+  # internet and load-balances to our pods
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: oapi-service
+  spec:
+    selector:
+      app: oapi-app     # This makes load balancer point to oapi-app
+    ports:
+      - port: 80        
+        targetPort: 80  # The port our container(in pods) listens to
+    type: LoadBalancer
+  ```
+
+  
+
+- Test k8s configuration locally using [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/): 
+
+  ```bash
+  kind create cluster --name oapi-cluster
+  # Creating cluster "oapi-cluster" ...
+  #  ✓ Ensuring node image (kindest/node:v1.19.1) 🖼
+  #  ✓ Preparing nodes 📦
+  #  ✓ Writing configuration 📜
+  #  ✓ Starting control-plane 🕹️
+  #  ✓ Installing CNI 🔌
+  #  ✓ Installing StorageClass 💾
+  
+  kubectl apply -f k8
+  # deployment.apps/oapi-app-deployment created
+  # service/oapi-service created
+  
+  
+  ```
+  
+  With Kind, it is not possible (or I don't understand) how to access the load balancer on local machine. Though it is straight forward with minikube as shown in next step.
+
+- With minikube
+
+  ```bash
+  minikube start --vm-driver=virtualbox # Start with VirtualBox 
+  kubectl apply -f k8
+  minikube service oapi-service
+  ```
+
+  
 
