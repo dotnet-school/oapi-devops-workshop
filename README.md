@@ -8,13 +8,13 @@ Todo
 
 - [x] Dockerize Web API
 
-- [ ] Crate kubernetes config
+- [x] Crate kubernetes config
 
-- [ ] Run with Kind locally 
+- [x] Run with Kind/Minikube locally 
 
-- [ ] Create AKS cluster
+- [x] Create AKS cluster
 
-- [ ] Deploy to AKS from Azure CLI
+- [x] Deploy to AKS from Azure CLI
 
 - [ ] Create a build pipeline
 
@@ -482,9 +482,120 @@ Make sure that following tools are available on your machine before starting.
 
 
 
+### Creating build pipeline
+
+- Go to https://dev.azure.com
+
+- Create new project `oapi`
+
+  ![image-20201017201946171](./docs/images/create-project.png)
+
+- Open new project and go to pipelines 
+
+  ![image-20201017202048235](./docs/images/open-pipelines.png)
+
+
+
+- Click on create pipeline 
+
+  ![image-20201017202210724](./docs/images/click-create-pipelin.png)
+
+  
+
+- Select source as GitHub and then choose you project
+
+- You can choose from many availble boilerplate builds, but we will choose the Starter Pipeline for this project
+
+  ![image-20201017202429293](./docs/images/choose-started-pipeline.png)
+
+- We will simply create and build a docker image in out build steps. In a real project, it would involve running dotnet build and tests before we publish the docker image
+
+  ```yaml
+  trigger:
+  - master
+  
+  pool:
+    vmImage: 'ubuntu-latest'
+  
+  variables:
+    dockerRepository: "nishants/oapi-service"
+    tag: "v1.0.$(Build.BuildId)"
+    imageName: "nishants/oapi-service:v1.0.$(Build.BuildId)"
+    buildConfiguration: 'Release'
+  
+  steps:
+  - task: Docker@2
+    displayName: Build Image
+    inputs:
+      command: build
+      dockerfile: '**/Dockerfile'
+      repository: $(dockerRepository)          
+      tags: $(tag)          
+  
+  - task: Docker@2
+    displayName: Login to Docker Hub
+    inputs:
+      command: login
+      containerRegistry: DockerHubServiceConnection
+  
+  - task: Docker@2
+    displayName: Publish Image
+    inputs:
+      command: push
+      containerRegistry: DockerHubServiceConnection
+      repository: $(dockerRepository)          
+      tags: $(tag)  
+  ```
+
+  
+
+  ![image-20201017203051738](./docs/images/create-initial-build-yml.png)
+
+
+
+- Click on save and run
+
+  ![image-20201017203144992](./docs/images/save-and-run-pipeline.png)
+
+
+
+- You should see an error message :
+
+  ![image-20201017203230945](./docs/images/missing-service-connectoin.png)
+
+
+
+- Lets fix this by creating a service connection. Go to project settings (menu item on bottom left of page)
+
+- Then choose the service connections : 
+
+  ![image-20201017203401348](./docs/images/create-service-connection.png)
+
+- Search for docker registry in connection type option: 
+
+  ![image-20201017203457193](./docs/images/docker-connection-type.png)
+
+
+
+- Choose Docker Hub in registry type, enter you user and password for docker hub and click on verify 
+
+  ![image-20201017203646980](./docs/images/verify-docker-hub.png)
+
+
+
+- Enter service connection name as `DockerHubServiceConnection`
+
+  ![image-20201017203729436](./docs/images/service-connection-name.png)
+
+
+
+- Now go back to our pipeline and run it for master branch
+- After the pipeline runs successfully, go to docker hub and check if the image was correctly created.
+
 
 
 ### Delete the cluster
+
  ```bash
 az group delete --name $RESOURCE_GROUP --yes --no-wait
  ```
