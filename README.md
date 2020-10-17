@@ -1,11 +1,8 @@
 Todo 
 
-- [ ] Create pre-requisites
-  - [ ] Powershell (if windows)
-  - [ ] Dotnet core (3.1 or 5-preview)
-  - [ ] Azure CLI - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli 
-  - [ ] Azure account : http://portal.azure.com/
-- [ ] Create a web-api from boilerplate
+- [x] Create pre-requisites
+  - [x] 
+- [x] Create a web-api from boilerplate
 - [ ] Create a healtch check API : send version, remarks
 - [ ] Create docker image
 - [ ] Crate kubernetes config
@@ -14,6 +11,21 @@ Todo
 - [ ] Deploy to AKS from Azure CLI
 - [ ] Create a build pipeline
 - [ ] Create a release pipeline 
+
+
+
+### Setup
+
+Make sure that following tools are available on your machine before starting.
+
+- [ ] Powershell (if windows)
+- [ ] Dotnet core (3.1 or 5-preview)
+- [ ] Azure CLI - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli 
+- [ ] Azure account : http://portal.azure.com/
+- [ ] Github account
+  - [ ] Create a new repository for this project (completely empty)
+- [ ] Docker
+- [ ] Kind
 
 
 
@@ -90,7 +102,14 @@ Todo
     }
   ]
   ```
+- Now lets generate a `.gitignore` before we can commit and push our project.
 
+  ```bash
+  dotnet new gitignore
+  git add --all
+  git commit "Create a web api"
+  git remote add origin <your-repository-on-github>
+  git push origin master
+  ```
 
-
-
+- 
