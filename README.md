@@ -447,6 +447,7 @@ Make sure that following tools are available on your machine before starting.
   RESOURCE_GROUP=oapi-service-resource
   CLUSTER_NAME=oapi-service
   REGION=westeurope
+  REGISTRY_NAME=saxolab
   
   # Create resource
   az group create --name $RESOURCE_GROUP --location $REGION
@@ -484,6 +485,19 @@ Make sure that following tools are available on your machine before starting.
 
 - Now access the EXTERNAL-IP as http : http://external_ip_of_service
 
+- Create a docker registry with Azure Container Registry (ACR):
+
+  ```bash
+  # Create azure container registry
+  az acr create \
+  --resource-group $RESOURCE_GROUP \
+  --name $REGISTRY_NAME \
+  --sku Standard \
+  --location $REGION 
+  ```
+
+- 
+
 - Remember to delete the cluster after you are done with the workshop.
 
  ```bash
@@ -516,4 +530,16 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
 
 
 
-- Select repository
+- Select repository and choose `Depoloy to Kubernetes Service` in options
+
+  ![image-20201018040124661](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-coose-boileplate.png)
+
+
+
+- Choose subcription
+
+  ![image-20201018040201521](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-create-subcription.png)
+
+
+
+- 
