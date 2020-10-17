@@ -416,12 +416,10 @@ Make sure that following tools are available on your machine before starting.
   kubectl apply -f k8
   # deployment.apps/oapi-app-deployment created
   # service/oapi-service created
-  
-  
   ```
   
-  With Kind, it is not possible (or I don't understand) how to access the load balancer on local machine. Though it is straight forward with minikube as shown in next step.
-
+  With Kind, it is not possible (or I don't understand) how to access the load balancer on local machine. Though it is straight forward with minikube as shown in next step or if using ingress controller.
+  
 - With minikube
 
   ```bash
@@ -486,14 +484,36 @@ Make sure that following tools are available on your machine before starting.
 
 - Now access the EXTERNAL-IP as http : http://external_ip_of_service
 
+- Remember to delete the cluster after you are done with the workshop.
 
-
-
-
-### Delete the cluster
  ```bash
 az group delete --name $RESOURCE_GROUP --yes --no-wait
  ```
 
   
 
+### Creating Build Pipeline
+
+- Go to https://dev.azure.com
+
+- Create an organization if you don't already have one
+
+- Create a project in the organization : 
+
+  ![image-20201018035245955](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/project-create-new.png)
+
+
+
+- Go to pipelines
+
+  ![image-20201018035449695](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-open.png)
+
+
+
+- Click on create pipeling button
+
+  ![image-20201018035525526](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-create-button.png)
+
+
+
+- Select repository
