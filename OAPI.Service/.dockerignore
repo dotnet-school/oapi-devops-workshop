@@ -1,0 +1,12 @@
+# Directories
+**/bin/
+**/obj/
+**/out/
+
+# IDEs
+**/.idea
+**/.vscode
+
+# Files
+Dockerfile*
+README.md

@@ -2,8 +2,8 @@ Todo
 
 - [x] Create pre-requisites
 - [x] Create a web-api from boilerplate
-- [ ] Create a healtch check API : send version, remarks
-- [ ] Create docker image
+- [x] Create a healtch check API : send version, remarks
+- [ ] Dockerize Web API
 - [ ] Crate kubernetes config
 - [ ] Run with Kind locally 
 - [ ] Create AKS cluster
@@ -114,7 +114,7 @@ Make sure that following tools are available on your machine before starting.
 
 
 
-### Create a healtch check API 
+### Creating a health check API 
 
 - Lets not think about why we need a health check API for now. Lets take this as a practice to add a new endpoint to our Web API.
 
@@ -160,4 +160,27 @@ Make sure that following tools are available on your machine before starting.
   }
   ```
 
+
+
+
+### Dockerizing Web API
+
+- Create a `.dockerignore` in project root. It works just like `.gitignore` for docker. It tells docker what files to ignore in our project.
+
+  ```yaml
+  # Directories
+  **/bin/
+  **/obj/
+  **/out/
   
+  # IDEs
+  **/.idea
+  **/.vscode
+  
+  # Files
+  Dockerfile*
+  README.md
+  ```
+
+- 
+
