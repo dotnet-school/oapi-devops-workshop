@@ -1,7 +1,6 @@
 Todo 
 
 - [x] Create pre-requisites
-  - [x] 
 - [x] Create a web-api from boilerplate
 - [ ] Create a healtch check API : send version, remarks
 - [ ] Create docker image
@@ -113,3 +112,42 @@ Make sure that following tools are available on your machine before starting.
   git push origin master
   ```
 
+
+
+### Create a healtch check API 
+
+- Lets not think about why we need a health check API for now. Lets take this as a practice to add a new endpoint to our Web API.
+
+- Create a file `OAPI.Service/Controllers/HealthCheckController.cs` : 
+
+  ```c#
+  using System.Collections.Generic;
+  using Microsoft.AspNetCore.Mvc;
+  
+  namespace OAPI.Service.Controllers
+  {
+      [ApiController]
+      [Route("")]
+      public class HealthCheckController : ControllerBase
+      {
+         [HttpGet]
+          public IDictionary<string, object> Get()
+          {
+              return new Dictionary<string, object>()
+              {
+                              ["version"] = "1.0", 
+                              ["healthy"] = true, 
+                              ["message"] = "Up and running", 
+              };
+          }
+      }
+  }
+  ```
+
+- Now run the project
+
+  ```
+  dotnet run
+  ```
+
+- In browser, open url: https://localhost:5001/
