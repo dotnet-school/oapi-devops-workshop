@@ -542,4 +542,13 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
 
 
 
-- 
+- Choose cluster, k8, contaienr registry, image name
+
+  ![image-20201018043328229](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-coose-k8-acr-image.png)
+
+
+
+- Save and run pipeline
+
+  ![image-20201018043435420](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-save-and-run.png)
+
