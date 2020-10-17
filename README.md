@@ -151,3 +151,13 @@ Make sure that following tools are available on your machine before starting.
   ```
 
 - In browser, open url: https://localhost:5001/
+
+  ```json
+  {
+    "version": "1.0",
+    "healthy": true,
+    "message": "Up and running"
+  }
+  ```
+
+  
