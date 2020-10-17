@@ -283,7 +283,7 @@ Make sure that following tools are available on your machine before starting.
     #....
     ```
 
-    
+    > Learn about layers in Docker images
 
   - Why did we use two different images in the same `Dockerfile` ? 
 
@@ -301,5 +301,5 @@ Make sure that following tools are available on your machine before starting.
     # ...
     ```
 
-    
+    > Learn about multistage docker builds
 
