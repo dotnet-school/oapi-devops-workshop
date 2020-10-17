@@ -12,7 +12,7 @@ namespace OAPI.Service.Controllers
         {
             return new Dictionary<string, object>()
             {
-                            ["version"] = "1.0", 
+                            ["version"] = "v1.0", 
                             ["healthy"] = true, 
                             ["message"] = "Up and running", 
             };

@@ -1,21 +1,20 @@
-# This part creates a pod that runs our docker image
-apiVersion: apps/v1
+# Create pods that runs our docker image
+apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: oapi-app-deployment
+  name: oapiserviceone 
 spec:
-  replicas: 2    # Alwasy run two isntances of app
+  replicas: 2
   selector:
     matchLabels:
-      app: oapi-app
+      app: oapiserviceone
   template:
     metadata:
       labels:
-        app: oapi-app
+        app: oapiserviceone 
     spec:
       containers:
-        - name: oapi-app
-          image: nishants/oapi-service:v1.0 # Dockerhub image
+        - name: oapiserviceone 
+          image: saxolab.azurecr.io/oapiserviceone # Image name
           ports:
-            - containerPort: 80         # Port that our app listens to
-          imagePullPolicy: Always       # To keep simple for now
+          - containerPort: 80

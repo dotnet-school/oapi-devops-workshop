@@ -27,6 +27,10 @@ Todo
   - [ ] Define environment
     - [ ] Each one is AKS cluster
     - [ ] Can be auto/manual approved
+- [ ] Checkout review apps : https://www.vivienfabing.com/kubernetes/2019/12/03/kubernetes-get-new-environment-per-pull-request-using-review-apps.html
+
+
+
 
 ### Setup
 
@@ -551,4 +555,40 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
 - Save and run pipeline
 
   ![image-20201018043435420](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-save-and-run.png)
+
+
+
+
+
+### Validate auto release
+
+- Update version of api in `OAPI.Service/Controllers/HealthCheckController.cs` as
+
+  ```diff
+  [HttpGet]
+  public IDictionary<string, object> Get()
+  {
+    return new Dictionary<string, object>()
+    {
+  -   ["version"] = "1.0", 
+  +   ["version"] = "v1.0", 
+      ["healthy"] = true, 
+      ["message"] = "Up and running", 
+    };
+  }
+  ```
+
+- Now commit and push.
+
+- Once build is finished, hit the external-ip service to check response. It should be 
+
+  ```yaml
+  {
+    "version": "v1.0",
+    "healthy": true,
+    "message": "Up and running"
+  }
+  ```
+
+  
 
