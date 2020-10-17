@@ -182,5 +182,27 @@ Make sure that following tools are available on your machine before starting.
   README.md
   ```
 
-- 
+- Create a `Dockerfile` in our project root and we will use it to compile our project
+
+  ```dockerfile
+  # Stage 1: Use an image with SDK (so that we can compile and build app)
+  FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+  WORKDIR /source
+  
+  # Run dotnet restore
+  COPY OAPI.Service/*.csproj .
+  RUN dotnet restore
+  
+  # Copy rest of project and publish app int /app directory
+  COPY ./OAPI.Service .
+  RUN dotnet publish -c release -o /app --no-restore
+  ```
+
+- Now lets build and check our docker configuration to compile project
+
+  ```bash
+  docker build -t oapi-service .
+  ```
+
+  
 
