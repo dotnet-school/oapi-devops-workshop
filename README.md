@@ -1,26 +1,32 @@
 Todo 
 
 - [x] Create pre-requisites
-
 - [x] Create a web-api from boilerplate
-
 - [x] Create a healtch check API : send version, remarks
-
 - [x] Dockerize Web API
-
-- [ ] Crate kubernetes config
-
-- [ ] Run with Kind locally 
-
-- [ ] Create AKS cluster
-
-- [ ] Deploy to AKS from Azure CLI
-
-- [ ] Create a build pipeline
-
-- [ ] Create a release pipeline 
-
-  
+- [x] Crate kubernetes config
+- [x] Run with Kind/Minikube locally 
+- [x] Create AKS cluster
+- [x] Deploy to AKS from Azure CLI
+- [ ] Create a build pipeline with azure templates
+- [ ] Create environment and release to environment on approval
+- [ ] Add test suites
+  - [ ] L0, L1 
+  - [ ] L2 : can run against docker image
+- [ ] Design and implement a CI pipeline
+  - [ ] **Build and Verify**
+    - [ ] Low level fast running Tests
+    - [ ] Build docker
+  - [ ] **Acceptance Tests**
+    - [ ] L2 test against docker image
+  - [ ] **Publish**
+    - [ ] Publish Kubernetes and ARM artificats 
+    - [ ]  Push Docker image to artifactory
+  - [ ] **Release**
+    - [ ] Create releases for envrironment (master/release/hotfix)
+  - [ ] Define environment
+    - [ ] Each one is AKS cluster
+    - [ ] Can be auto/manual approved
 
 ### Setup
 
