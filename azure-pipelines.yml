@@ -53,7 +53,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'oapidevopsworkshop-2117.one'
+    environment: 'Red'
     strategy:
       runOnce:
         deploy:
