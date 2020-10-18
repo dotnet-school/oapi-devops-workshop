@@ -53,7 +53,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'Red'
+    environment: 'Red.one'
     strategy:
       runOnce:
         deploy:
