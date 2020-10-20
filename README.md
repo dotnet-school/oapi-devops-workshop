@@ -59,12 +59,12 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
 - [ ] Azure account : http://portal.azure.com/
 - [ ] Azure devops account : http://dev.azure.com/
 - [ ] Azure CLI - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
-- [ ] DotNet core (3.1 or 5-preview)
-- [ ] Git bash (if using windows) [Optional]
-- [ ] Docker Desktop
+- [ ] DotNet core (3.1 or 5-preview) : https://dotnet.microsoft.com/download/dotnet-core
+- [ ] Docker Desktop : https://www.docker.com/products/docker-desktop
 - [ ] install kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
 - [ ] Setup Minikube:[ https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/) or Kind : https://kind.sigs.k8s.io/docs/user/quick-start/
 - [ ] IDE of choice (Rider/VS Code/Visual Studio)
+- [ ] Git bash if using windows [Optional] : https://git-scm.com/download/win
 
 
 
