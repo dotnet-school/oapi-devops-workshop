@@ -1,7 +1,54 @@
 # OApi Dev Workshop - 101
 
 
-### Machine and Accounts Setup
+
+# Summary
+
+- [Setup](#setup-machine) 
+
+  > *Setup tools and create accounts*
+
+- [Objectives](#objectives) 
+
+  >  *We will use this for future workshops and POCs*
+
+- [Creating a web service](#create-web-service) 
+
+  > *Use dotnet CLI to create new projects*
+
+- [Creating a health-check endpoint](#health-check) 
+
+  >  *Endpoint to make sure our service is up and running*
+
+- [Dockerizing the web service](#dockerize-service) 
+
+  > *Creating and running docker image,  publishing to docker hub*
+
+- [Creating Kubernetes cluster](#k8s-config) 
+
+  > *Define a Kubernetes serice and deployment*
+  >
+  > *Run configuration using minikube to validate configuration*
+
+- [Deploying on Azure Kubernetes Service](#aks-deploy) 
+
+  > *Use azure CLI to create resources on Azure*
+  >
+  > *Apply Kubernetes config to AKS cluster using kubectl*
+
+- [Creating CI Pipeline](#ci-and-cd) 
+
+  > *Create a CI pipeline using pre-defined boilerplate for Kubernetes*
+
+- [Verify Auto Release](#verify-auto-release) 
+
+  > *Commit to your repo and check if code is auto deployed to AKS*
+
+
+
+<a name="setup-machine" style="opacity:0"></a>
+
+# Machine and Accounts Setup
 
 It would be awesome if you can setup following tools on your personal machines and create accounts using non-Saxo ID.
 
@@ -17,11 +64,13 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
 - [ ] Docker Desktop
 - [ ] install kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
 - [ ] Setup Minikube:[ https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/) or Kind : https://kind.sigs.k8s.io/docs/user/quick-start/
-- [ ] IDE of choice (Rider/VS Code/Visutal Studio)
+- [ ] IDE of choice (Rider/VS Code/Visual Studio)
 
 
 
-### Objective
+<a name="objectives" style="opacity:0"></a>
+
+# Objective
 
 - Create a playground where we can build,deploy and experiment without needing any permissions
 
@@ -33,94 +82,98 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
 
 
 
+<a name="create-web-service" style="opacity:0"></a>
 
-### Creating a Web API 
 
-- Dotnet Core comes with some cool boiler-plate generator 
+# Creating a Web API 
 
-- Type `dotnet new -h` to view some of the boiler plates available: 
-  e.g. : 
-  
-    <table>
+Dotnet Core comes with some cool boiler-plate generator 
+
+Type `dotnet new -h` to view some of the boiler plates available: 
+e.g. : 
+
+<table>
   <tr><td> dotnet new cosnole</td><td>Console Application</td>        </tr>
   <tr><td> dotnet new webapi</td><td>Creat a Web API</td>       </tr>
   <tr><td>dotnet new react</td><td>Creates app with React.js</td> </tr>
   <tr><td>dotnet new grpc</td><td>Creates a gRPC Service  </td></tr>
 </table>
-  
-- We will create a simple json service that will return data at a url :
+We will create a simple json service that will return data at a url :
 
-  ```bash
-  dotnet new webapi -o OAPI.Service
-  ```
+```bash
+dotnet new webapi -o OAPI.Service
+```
 
-- Now run the app
+Now run the app
 
-  ```bash
-  cd OAPI.Service
-  dotnet run
-  # info: Microsoft.Hosting.Lifetime[0]
-  #       Now listening on: https://localhost:5001
-  # info: Microsoft.Hosting.Lifetime[0]
-  #       Now listening on: http://localhost:5000
-  # info: Microsoft.Hosting.Lifetime[0]
-  #       Application started. Press Ctrl+C to shut down.
-  # info: Microsoft.Hosting.Lifetime[0]
-  #       Hosting environment: Development
-  # info: Microsoft.Hosting.Lifetime[0]
-  #       Content root path: ./OAPI.Service
-  ```
+```bash
+cd OAPI.Service
+dotnet run
+# info: Microsoft.Hosting.Lifetime[0]
+#       Now listening on: https://localhost:5001
+# info: Microsoft.Hosting.Lifetime[0]
+#       Now listening on: http://localhost:5000
+# info: Microsoft.Hosting.Lifetime[0]
+#       Application started. Press Ctrl+C to shut down.
+# info: Microsoft.Hosting.Lifetime[0]
+#       Hosting environment: Development
+# info: Microsoft.Hosting.Lifetime[0]
+#       Content root path: ./OAPI.Service
+```
 
-- Open url https://localhost:5001/weatherforecast, you should get a response like :
+Open url https://localhost:5001/weatherforecast, you should get a response like :
 
-  ```json
-  [
-    {
-      "date": "2020-10-18T14:59:15.157908+05:30",
-      "temperatureC": 10,
-      "temperatureF": 49,
-      "summary": "Warm"
-    },
-    {
-      "date": "2020-10-19T14:59:15.158209+05:30",
-      "temperatureC": -12,
-      "temperatureF": 11,
-      "summary": "Balmy"
-    },
-    {
-      "date": "2020-10-20T14:59:15.158214+05:30",
-      "temperatureC": -2,
-      "temperatureF": 29,
-      "summary": "Sweltering"
-    },
-    {
-      "date": "2020-10-21T14:59:15.158214+05:30",
-      "temperatureC": -6,
-      "temperatureF": 22,
-      "summary": "Cool"
-    },
-    {
-      "date": "2020-10-22T14:59:15.158215+05:30",
-      "temperatureC": 0,
-      "temperatureF": 32,
-      "summary": "Balmy"
-    }
-  ]
-  ```
-- Now lets generate a `.gitignore` before we can commit and push our project.
+```json
+[
+  {
+    "date": "2020-10-18T14:59:15.157908+05:30",
+    "temperatureC": 10,
+    "temperatureF": 49,
+    "summary": "Warm"
+  },
+  {
+    "date": "2020-10-19T14:59:15.158209+05:30",
+    "temperatureC": -12,
+    "temperatureF": 11,
+    "summary": "Balmy"
+  },
+  {
+    "date": "2020-10-20T14:59:15.158214+05:30",
+    "temperatureC": -2,
+    "temperatureF": 29,
+    "summary": "Sweltering"
+  },
+  {
+    "date": "2020-10-21T14:59:15.158214+05:30",
+    "temperatureC": -6,
+    "temperatureF": 22,
+    "summary": "Cool"
+  },
+  {
+    "date": "2020-10-22T14:59:15.158215+05:30",
+    "temperatureC": 0,
+    "temperatureF": 32,
+    "summary": "Balmy"
+  }
+]
+```
 
-  ```bash
-  cd ..
-  dotnet new gitignore
-  git add --all
-  git commit -m "Create a web api"
-  git remote add origin <your-repository>
-  git push origin master
-  ```
+Now lets generate a `.gitignore` before we can commit and push our project.
+
+```bash
+cd ..
+dotnet new gitignore
+git add --all
+git commit -m "Create a web api"
+git remote add origin <your-repository>
+git push origin master
+```
 
 
 
-### Creating a health check API 
+<a name="health-check" style="opacity:0"></a>
+
+# Creating a health check API 
 
 - Lets not think about why we need a health check API for now. Lets take this as a practice to add a new endpoint to our Web API.
 
@@ -168,8 +221,10 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
 
 
 
+<a name="dockerize-service" style="opacity:0"></a>
 
-### Dockerizing Web API
+
+# Dockerizing Web API
 
 - Create a `.dockerignore` in project root. It works just like `.gitignore` for docker. It tells docker what files to ignore in our project.
 
@@ -316,14 +371,17 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
     FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
     WORKDIR /app
     
-  # ...
+    #...
     ```
-  
-    > Learn about multistage docker builds
+
+		 > Learn about multistage docker builds
 
 
 
-### Crating Kubernetes config
+<a name="k8s-config" style="opacity:0"></a>
+
+
+# Creating Kubernetes cluster
 
 - **How K8s works ?**
 
@@ -419,9 +477,12 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
   minikube service oapi-service
   ```
 
-  
 
-### Creating cluster on Azure Kubernetes Service
+
+
+<a name="aks-deploy" style="opacity:0"></a>
+
+# Creating cluster on Azure Kubernetes Service
 
 - Login with Azure CLI
 
@@ -497,7 +558,9 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
 
   
 
-### Creating Build Pipeline
+<a name="ci-and-cd" style="opacity:0"></a>
+
+# Creating CI Pipeline
 
 - Go to https://dev.azure.com
 
@@ -545,11 +608,11 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
 
 
 
+<a name="verify-auto-release" style="opacity:0"></a>
 
+# Validate auto release
 
-### Validate auto release
-
-- Update version of api in `OAPI.Service/Controllers/HealthCheckController.cs` as
+- Lets update response of health check API in `OAPI.Service/Controllers/HealthCheckController.cs` as
 
   ```diff
   [HttpGet]
@@ -577,5 +640,6 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
   }
   ```
 
-- 
+  
+
 
