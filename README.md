@@ -72,6 +72,8 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
 
 # Objective
 
+- Learn very basic know-how of .NET Core, Docker, Kubernetes, Azure Kubernetes Service, Azure Devops
+
 - Create a playground where we can build,deploy and experiment without needing any permissions
 
 - We can try out things that would be risky/impossible to try on Saxo's kuberntes cluster
