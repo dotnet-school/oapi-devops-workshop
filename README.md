@@ -1,51 +1,35 @@
-Todo 
-
-- [x] Create pre-requisites
-- [x] Create a web-api from boilerplate
-- [x] Create a healtch check API : send version, remarks
-- [x] Dockerize Web API
-- [x] Crate kubernetes config
-- [x] Run with Kind/Minikube locally 
-- [x] Create AKS cluster
-- [x] Deploy to AKS from Azure CLI
-- [x] Create a build pipeline with azure templates
-- [ ] Create environment and release to environment on approval
-- [ ] Add test suites
-  - [ ] L0, L1 
-  - [ ] L2 : can run against docker image
-- [ ] Design and implement a CI pipeline
-  - [ ] **Build and Verify**
-    - [ ] Low level fast running Tests
-    - [ ] Build docker
-  - [ ] **Acceptance Tests**
-    - [ ] L2 test against docker image
-  - [ ] **Publish**
-    - [ ] Publish Kubernetes and ARM artificats 
-    - [ ]  Push Docker image to artifactory
-  - [ ] **Release**
-    - [ ] Create releases for envrironment (master/release/hotfix)
-  - [ ] Define environment
-    - [ ] Each one is AKS cluster
-    - [ ] Can be auto/manual approved
-- [ ] Checkout review apps : https://www.vivienfabing.com/kubernetes/2019/12/03/kubernetes-get-new-environment-per-pull-request-using-review-apps.html
+# OApi Dev Workshop - 101
 
 
+### Machine and Accounts Setup
 
+It would be awesome if you can setup following tools on your personal machines and create accounts using non-Saxo ID.
 
-### Setup
+If you do not find time, do not worry. We can do it as part of the workshop itself.
 
-Make sure that following tools are available on your machine before starting.
+**Checklist :** 
 
-- [ ] Powershell (if windows)
-- [ ] Dotnet core (3.1 or 5-preview)
-- [ ] Azure CLI - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli 
 - [ ] Azure account : http://portal.azure.com/
-- [ ] Github account
-  - [ ] Create a new repository for this project (completely empty)
-- [ ] Docker
-- [ ] Account on docker hub
+- [ ] Azure devops account : http://dev.azure.com/
+- [ ] Azure CLI - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+- [ ] DotNet core (3.1 or 5-preview)
+- [ ] Git bash (if using windows) [Optional]
+- [ ] Docker Desktop
 - [ ] install kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
-- [ ] Setup Minikube or  Kind : https://kind.sigs.k8s.io/docs/user/quick-start/ 
+- [ ] Setup Minikube:[ https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/) or Kind : https://kind.sigs.k8s.io/docs/user/quick-start/
+
+
+
+### Objective
+
+- Create a playground where we can build,deploy and experiment without needing any permissions
+
+- We can try out things that would be risky/impossible to try on Saxo's kuberntes cluster
+
+- To create a sample project with continuous deployment to AKS which we can use in future workshops, presentations
+
+- In future we can incrementaly add demos for  gRPC, SignalR, NATS, Azure AD e.t.c. in the same project.
+
 
 
 
@@ -83,7 +67,7 @@ Make sure that following tools are available on your machine before starting.
   # info: Microsoft.Hosting.Lifetime[0]
   #       Hosting environment: Development
   # info: Microsoft.Hosting.Lifetime[0]
-  #       Content root path: /Users/dawn/projects/dotnet-school/oapi-devops-workshop/OAPI.Service
+  #       Content root path: ./OAPI.Service
   ```
 
 - Open url https://localhost:5001/weatherforecast, you should get a response like :
@@ -129,7 +113,7 @@ Make sure that following tools are available on your machine before starting.
   dotnet new gitignore
   git add --all
   git commit -m "Create a web api"
-  git remote add origin <your-repository-on-github>
+  git remote add origin <your-repository>
   git push origin master
   ```
 
@@ -316,8 +300,10 @@ Make sure that following tools are available on your machine before starting.
 
     > Learn about layers in Docker images
 
-  - Why did we use two different images in the same `Dockerfile` ? 
+    
 
+  - Why did we use two different images in the same `Dockerfile` ? 
+  
     ```dockerfile
     # Stage 1: Use an image with SDK (so that we can compile and build app)
     FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
@@ -329,9 +315,9 @@ Make sure that following tools are available on your machine before starting.
     FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
     WORKDIR /app
     
-    # ...
+  # ...
     ```
-
+  
     > Learn about multistage docker builds
 
 
@@ -518,43 +504,43 @@ az group delete --name $RESOURCE_GROUP --yes --no-wait
 
 - Create a project in the organization : 
 
-  ![image-20201018035245955](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/project-create-new.png)
+  ![image-20201018035245955](./docs/images/project-create-new.png)
 
 
 
 - Go to pipelines
 
-  ![image-20201018035449695](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-open.png)
+  ![image-20201018035449695](./docs/images/pipeline-open.png)
 
 
 
 - Click on create pipeling button
 
-  ![image-20201018035525526](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-create-button.png)
+  ![image-20201018035525526](./docs/images/pipeline-create-button.png)
 
 
 
 - Select repository and choose `Depoloy to Kubernetes Service` in options
 
-  ![image-20201018040124661](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-coose-boileplate.png)
+  ![image-20201018040124661](./docs/images/pipeline-coose-boileplate.png)
 
 
 
 - Choose subcription
 
-  ![image-20201018040201521](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-create-subcription.png)
+  ![image-20201018040201521](./docs/images/pipeline-create-subcription.png)
 
 
 
 - Choose cluster, k8, contaienr registry, image name
 
-  ![image-20201018043328229](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-coose-k8-acr-image.png)
+  ![image-20201018043328229](./docs/images/pipeline-coose-k8-acr-image.png)
 
 
 
 - Save and run pipeline
 
-  ![image-20201018043435420](/Users/dawn/projects/dotnet-school/oapi-devops-workshop/docs/images/pipeline-save-and-run.png)
+  ![image-20201018043435420](./docs/images/pipeline-save-and-run.png)
 
 
 
