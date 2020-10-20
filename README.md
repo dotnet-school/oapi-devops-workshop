@@ -17,6 +17,7 @@ If you do not find time, do not worry. We can do it as part of the workshop itse
 - [ ] Docker Desktop
 - [ ] install kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
 - [ ] Setup Minikube:[ https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/) or Kind : https://kind.sigs.k8s.io/docs/user/quick-start/
+- [ ] IDE of choice (Rider/VS Code/Visutal Studio)
 
 
 
